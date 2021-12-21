@@ -1,0 +1,81 @@
+CREATE TABLE titles (
+    title_id VARCHAR   NOT NULL PRIMARY KEY,
+    title VARCHAR   NOT NULL
+);
+
+CREATE TABLE departments (
+    dept_no VARCHAR   NOT NULL PRIMARY KEY,
+    dept_name VARCHAR   NOT NULL
+);
+
+CREATE TABLE employees (
+    emp_no integer   NOT NULL PRIMARY KEY,
+    emp_title VARCHAR   NOT NULL,
+    birth_date VARCHAR   NOT NULL,
+    first_name VARCHAR   NOT NULL,
+    last_name VARCHAR   NOT NULL,
+    sex VARCHAR   NOT NULL,
+    hire_date VARCHAR   NOT NULL,
+	FOREIGN KEY (emp_title) REFERENCES titles(title_id)
+);
+
+CREATE TABLE salaries (
+    emp_no int   NOT NULL,
+    salary int   NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+
+CREATE TABLE department_employee (
+    emp_no int   NOT NULL,
+    dept_no VARCHAR   NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+	PRIMARY KEY (emp_no, dept_no)
+);	
+	
+CREATE TABLE department_manager (
+    dept_no VARCHAR   NOT NULL,
+    emp_no int   NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+	PRIMARY KEY (emp_no, dept_no)
+);
+
+------------------
+
+COPY titles
+FROM 'C:\Users\Public\data\titles.csv'
+DELIMITER ','
+CSV HEADER;
+	
+COPY departments
+FROM 'C:\Users\Public\data\departments.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY employees
+FROM 'C:\Users\Public\data\employees.csv'
+DELIMITER ','
+CSV HEADER;
+	
+COPY salaries
+FROM 'C:\Users\Public\data\salaries.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY department_employee
+FROM 'C:\Users\Public\data\dept_emp.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY department_manager
+FROM 'C:\Users\Public\data\dept_manager.csv'
+DELIMITER ','
+CSV HEADER;
+
+--check to see if CSVs came in properly
+select * from titles;
+select * from employees;
+select * from Department_Employee;
+
+----------------------
